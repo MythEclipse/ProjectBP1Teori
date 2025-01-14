@@ -95,9 +95,16 @@ public class UploaderPage extends javax.swing.JFrame {
                     .build();
             try (Response response = client.newCall(request).execute()) {
                 if (response.isSuccessful()) {
-                    loadData();
                     String responseBody = response.body().string();
+                    JSONObject jsonObject = new JSONObject(responseBody);
+                    String imageUrl = jsonObject.getString("url");
+
+                    UploaderModel uploader = new UploaderModel();
+                    uploader.setOutput(imageUrl);
+                    UploaderRepo repo = new UploaderRepo();
+                    repo.createUploader(uploader);
                     JOptionPane.showMessageDialog(null, "Upload successful: " + responseBody);
+                    loadData();
                 } else {
                     JOptionPane.showMessageDialog(null, "Upload failed: " + response.message());
                 }
