@@ -3,6 +3,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -42,5 +44,22 @@ public class UploaderRepo {
             e.printStackTrace();
         }
         return null;
+    }
+    public List<UploaderModel> listUploaders() {
+        List<UploaderModel> uploaders = new ArrayList<>();
+        String sql = "SELECT * FROM uploader";
+        try (Connection connection = DatabaseUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                uploaders.add(new UploaderModel(
+                    resultSet.getInt("id"),
+                    resultSet.getString("output")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return uploaders;
     }
 }
