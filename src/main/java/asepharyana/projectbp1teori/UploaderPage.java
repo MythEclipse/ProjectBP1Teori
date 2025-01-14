@@ -66,6 +66,9 @@ public class UploaderPage extends javax.swing.JFrame {
             if (response.isSuccessful()) {
                 byte[] imageBytes = response.body().bytes();
                 ImageIcon imageIcon = new ImageIcon(imageBytes);
+                java.awt.Image image = imageIcon.getImage();
+                java.awt.Image scaledImage = image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
+                imageIcon = new ImageIcon(scaledImage);
                 GambarFrame.setIcon(imageIcon);
             } else {
                 JOptionPane.showMessageDialog(null, "Failed to fetch image: " + response.message());
@@ -138,7 +141,7 @@ public class UploaderPage extends javax.swing.JFrame {
 
         jLabel1.setText("Uploader");
 
-        PilihGambarButton.setText("Pilih Gambar");
+        PilihGambarButton.setText("Upload Gambar");
         PilihGambarButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 PilihGambarButtonMouseClicked(evt);
