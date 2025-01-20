@@ -108,7 +108,6 @@ public class Login extends javax.swing.JFrame {
         username = new javax.swing.JTextField();
         password = new javax.swing.JTextField();
         LoginButton = new javax.swing.JButton();
-        RegisterButton = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         LevelComboBox = new javax.swing.JComboBox<>();
         GuestButton = new javax.swing.JButton();
@@ -128,8 +127,6 @@ public class Login extends javax.swing.JFrame {
                 LoginButtonMouseClicked(evt);
             }
         });
-
-        RegisterButton.setText("REGISTER");
 
         jLabel5.setText("Level");
 
@@ -166,8 +163,6 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(GuestButton)
                         .addGap(18, 18, 18)
-                        .addComponent(RegisterButton)
-                        .addGap(18, 18, 18)
                         .addComponent(LoginButton)))
                 .addContainerGap(261, Short.MAX_VALUE))
         );
@@ -191,7 +186,6 @@ public class Login extends javax.swing.JFrame {
                 .addGap(51, 51, 51)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(LoginButton)
-                    .addComponent(RegisterButton)
                     .addComponent(GuestButton))
                 .addContainerGap(179, Short.MAX_VALUE))
         );
@@ -529,7 +523,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton GuestButton;
     private javax.swing.JComboBox<String> LevelComboBox;
     private javax.swing.JButton LoginButton;
-    private javax.swing.JButton RegisterButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
