@@ -1,4 +1,4 @@
-package asepharyana.projectbp1teori;
+package asepharyana.database.lib;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

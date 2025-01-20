@@ -1,26 +1,28 @@
-package asepharyana.projectbp1teori;
+package asepharyana.database.model;
 
 /**
  *
  * @author asephs
  */
 public class UploaderModel {
-    private int id;
+    private String id;
     private String output;
+    private String userId; // Added userId field
 
     // Constructor, getters, and setters
     public UploaderModel() {}
 
-    public UploaderModel(int id, String output) {
+    public UploaderModel(String id, String output, String userId) {
         this.id = id;
         this.output = output;
+        this.userId = userId; // Initialize userId
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -30,5 +32,13 @@ public class UploaderModel {
 
     public void setOutput(String output) {
         this.output = output;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

@@ -1,5 +1,9 @@
-package asepharyana.projectbp1teori;
+package asepharyana.layout.user;
 
+import asepharyana.database.repo.UploaderRepo;
+import asepharyana.database.model.UploaderModel;
+import asepharyana.database.model.UserModel;
+import asepharyana.database.lib.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,10 +28,15 @@ import okhttp3.*;
  */
 public class UploaderPage extends javax.swing.JFrame {
 
+    private static UserModel loginSuccess;
+
     /**
      * Creates new form UploaderPage
+     * 
+     * @param loginSuccess
      */
-    public UploaderPage() {
+    public UploaderPage(UserModel loginSuccess) {
+        UploaderPage.loginSuccess = loginSuccess;
         initComponents();
         loadData();
     }
@@ -39,7 +48,8 @@ public class UploaderPage extends javax.swing.JFrame {
 
         try {
             UploaderRepo repo = new UploaderRepo();
-            List<UploaderModel> uploaderList = repo.listUploaders();
+            String id = loginSuccess.getId(); 
+            List<UploaderModel> uploaderList = repo.listFindById(id);
             for (UploaderModel uploader : uploaderList) {
                 model.addRow(new Object[] { uploader.getId(), uploader.getOutput() });
             }
@@ -101,9 +111,8 @@ public class UploaderPage extends javax.swing.JFrame {
                     String responseBody = response.body().string();
                     JSONObject jsonObject = new JSONObject(responseBody);
                     String imageUrl = jsonObject.getString("url");
-
-                    UploaderModel uploader = new UploaderModel();
-                    uploader.setOutput(imageUrl);
+                    String userid = loginSuccess.getId();
+                    UploaderModel uploader = new UploaderModel(null, imageUrl, userid);
                     UploaderRepo repo = new UploaderRepo();
                     repo.createUploader(uploader);
                     JOptionPane.showMessageDialog(null, "Upload successful: " + responseBody);
@@ -126,7 +135,8 @@ public class UploaderPage extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
@@ -149,16 +159,15 @@ public class UploaderPage extends javax.swing.JFrame {
         });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+                new Object[][] {
+                        { null, null, null, null },
+                        { null, null, null, null },
+                        { null, null, null, null },
+                        { null, null, null, null }
+                },
+                new String[] {
+                        "Title 1", "Title 2", "Title 3", "Title 4"
+                }));
         jScrollPane1.setViewportView(jTable1);
 
         CekGambarButton.setText("Cek Gambar");
@@ -171,63 +180,74 @@ public class UploaderPage extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(423, 423, 423)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(97, 97, 97)
-                        .addComponent(PilihGambarButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(UrlField, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(CekGambarButton))
-                            .addComponent(GambarFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(54, 54, 54))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(423, 423, 423)
+                                .addComponent(jLabel1)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(57, 57, 57)
+                                                .addComponent(GambarFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 200,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(UrlField, javax.swing.GroupLayout.PREFERRED_SIZE, 113,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(CekGambarButton))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
+                                                layout.createSequentialGroup()
+                                                        .addContainerGap()
+                                                        .addComponent(PilihGambarButton)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38,
+                                        Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(54, 54, 54)));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(49, 49, 49))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(PilihGambarButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(CekGambarButton)
-                            .addComponent(UrlField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(GambarFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41))))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout
+                                                .createSequentialGroup()
+                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(49, 49, 49))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout
+                                                .createSequentialGroup()
+                                                .addComponent(PilihGambarButton)
+                                                .addGap(77, 77, 77)
+                                                .addGroup(layout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(UrlField, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(CekGambarButton))
+                                                .addGap(61, 61, 61)
+                                                .addComponent(GambarFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 200,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(41, 41, 41)))));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void PilihGambarButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PilihGambarButtonMouseClicked
+    private void PilihGambarButtonMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_PilihGambarButtonMouseClicked
         // TODO add your handling code here:
         uploadGambar();
-    }//GEN-LAST:event_PilihGambarButtonMouseClicked
+    }// GEN-LAST:event_PilihGambarButtonMouseClicked
 
-    private void CekGambarButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CekGambarButtonMouseClicked
+    private void CekGambarButtonMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_CekGambarButtonMouseClicked
         // TODO add your handling code here:
         cekGambar();
-    }//GEN-LAST:event_CekGambarButtonMouseClicked
+    }// GEN-LAST:event_CekGambarButtonMouseClicked
 
     /**
      * @param args the command line arguments
@@ -267,7 +287,7 @@ public class UploaderPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UploaderPage().setVisible(true);
+                new UploaderPage(loginSuccess).setVisible(true);
             }
         });
     }
