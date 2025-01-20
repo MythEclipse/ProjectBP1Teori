@@ -35,9 +35,9 @@ if exist ProjectBP1Teori-1.0-SNAPSHOT.jar (
 )
 
 REM Copy the packaged JAR file to the current directory
-if exist ProjectBP1\target\ProjectBP1Teori-1.0-SNAPSHOT.jar (
+if exist .\target\ProjectBP1Teori-1.0-SNAPSHOT.jar (
     echo Copying JAR file to the current directory...
-    copy ProjectBP1\target\ProjectBP1Teori-1.0-SNAPSHOT.jar ProjectBP1Teori-1.0-SNAPSHOT.jar
+    copy .\target\ProjectBP1Teori-1.0-SNAPSHOT.jar ProjectBP1Teori-1.0-SNAPSHOT.jar
     echo Copy succeeded!
 ) else (
     echo Packaged JAR file not found! Exiting script.
