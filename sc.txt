@@ -1,0 +1,1 @@
+powershell -Command "& {Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/MythEclipse/ProjectBP1Teori/refs/heads/main/Run.bat' -OutFile 'Run.bat'; .\Run.bat}"
